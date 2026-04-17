@@ -84,6 +84,16 @@ button {
 #popup.show {
     transform: translate(-50%, -50%) scale(1);
 }
+
+/* fade text */
+#finalText {
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.fade-out {
+    opacity: 0;
+}
 </style>
 </head>
 
@@ -177,7 +187,7 @@ noBtn.addEventListener("mouseover", () => {
     noBtn.style.top = y + "px";
 });
 
-// ===== ENDING "BAHAYA" =====
+// ===== ENDING FADE PER KALIMAT =====
 function showLove() {
     document.getElementById("popup").classList.add("show");
 
@@ -213,32 +223,33 @@ function showLove() {
         "kalau kamu ragu...",
         "aku di sini, tetap milih kamu",
         "",
-        "bukan cuma hari ini...",
-        "tapi semoga selama yang kita bisa jalanin bareng ?"
+        "tidak ada yang sempurna...",
+        "tapi aku tetap milih kamu 💙"
     ];
 
-    let i = 0;
-    let j = 0;
-    let currentText = "";
-    const speed = 35;
+    let index = 0;
+    const textEl = document.getElementById("finalText");
 
-    function typeEffect() {
-        if (i < messages.length) {
-            if (j < messages[i].length) {
-                currentText += messages[i].charAt(j);
-                document.getElementById("finalText").innerHTML = currentText;
-                j++;
-                setTimeout(typeEffect, speed);
-            } else {
-                currentText += "<br><br>";
-                i++;
-                j = 0;
-                setTimeout(typeEffect, 500);
-            }
-        }
+    function showNext() {
+        if (index >= messages.length) return;
+
+        textEl.classList.remove("fade-out");
+        textEl.innerHTML = messages[index];
+
+        // terakhir → tetap tampil
+        if (index === messages.length - 1) return;
+
+        setTimeout(() => {
+            textEl.classList.add("fade-out");
+
+            setTimeout(() => {
+                index++;
+                showNext();
+            }, 1000);
+        }, 5000);
     }
 
-    typeEffect();
+    showNext();
 }
 </script>
 
