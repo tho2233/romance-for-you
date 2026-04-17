@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Kamu 💙</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    background: radial-gradient(circle at top, #8ec5fc, #3a7bd5);
+}
+
+/* bintang */
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+    from { opacity: 0.2; }
+    to { opacity: 1; }
+}
+
+.container {
+    margin-top: 100px;
+    position: relative;
+    z-index: 2;
+}
+
+h1 {
+    font-size: 26px;
+    min-height: 40px;
+}
+
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#yes {
+    background: #ffffff;
+    color: #3a7bd5;
+}
+
+#no {
+    background: #4a6fa5;
+    color: white;
+    position: absolute;
+}
+
+.hidden {
+    display: none;
+}
+
+/* popup */
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: white;
+    color: #3a7bd5;
+    padding: 25px;
+    border-radius: 20px;
+    transition: 0.4s;
+    max-width: 80%;
+}
+
+#popup.show {
+    transform: translate(-50%, -50%) scale(1);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1 id="text"></h1>
+
+    <button onclick="start()">Klik aku 💙</button>
+
+    <div id="question" class="hidden">
+        <h2>Kamu sayang aku nggak? 😳</h2>
+        <button id="yes" onclick="showLove()">Sayang banget 💙</button>
+        <button id="no">Nggak 😝</button>
+    </div>
+</div>
+
+<div id="popup">
+    <h2 id="finalText"></h2>
+</div>
+
+<script>
+// ===== BINTANG =====
+for (let i = 0; i < 120; i++) {
+    const star = document.createElement("div");
+    star.classList.add("star");
+    star.style.top = Math.random() * window.innerHeight + "px";
+    star.style.left = Math.random() * window.innerWidth + "px";
+    star.style.animationDuration = (Math.random() * 2 + 1) + "s";
+    document.body.appendChild(star);
+}
+
+// ===== TYPING AWAL =====
+const message = "Hai kamu 💙, aku ada sesuatu yang sederhana... tapi spesial buat kamu";
+let i = 0;
+
+function typeText() {
+    if (i < message.length) {
+        document.getElementById("text").innerHTML += message.charAt(i);
+        i++;
+        setTimeout(typeText, 50);
+    }
+}
+typeText();
+
+// ===== MUSIK TENANG =====
+let audioStarted = false;
+
+function playMusic() {
+    if (audioStarted) return;
+    audioStarted = true;
+
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playTone(freq, time) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.value = freq;
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + time);
+
+        osc.start();
+        osc.stop(ctx.currentTime + time);
+    }
+
+    setInterval(() => playTone(261.63, 0.5), 800);
+    setInterval(() => playTone(329.63, 0.5), 1600);
+    setInterval(() => playTone(392.00, 0.5), 2400);
+}
+
+// ===== START =====
+function start() {
+    document.querySelector("button").style.display = "none";
+    document.getElementById("question").classList.remove("hidden");
+    playMusic();
+}
+
+// ===== TOMBOL KABUR =====
+const noBtn = document.getElementById("no");
+
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+// ===== ENDING "BAHAYA" =====
+function showLove() {
+    document.getElementById("popup").classList.add("show");
+
+    const messages = [
+        "ehh bentar...",
+        "jangan tutup dulu ya...",
+        "aku cuma mau jujur sedikit aja",
+        "mungkin aku bukan yang paling sempurna buat kamu",
+        "kadang juga nyebelin, kadang bikin kamu kesel",
+        "tapi...",
+        "di antara semua hal yang aku punya sekarang",
+        "kamu itu yang paling aku takutin buat hilang",
+        "",
+        "aku nggak selalu bisa nunjukin seberapa besar rasa ini",
+        "tapi tiap hari...",
+        "aku selalu nyelipin nama kamu di pikiran aku",
+        "",
+        "aneh ya...",
+        "dari sekian banyak orang di dunia ini",
+        "aku bisa jatuh ke orang yang lagi baca ini sekarang",
+        "",
+        "dan kalau suatu hari kamu nanya...",
+        "'kenapa aku?'",
+        "",
+        "aku juga nggak punya jawaban yang sempurna",
+        "soalnya...",
+        "aku sayang kamu bukan karena alasan tertentu",
+        "tapi karena emang kamu itu kamu",
+        "",
+        "jadi...",
+        "kalau kamu capek, aku temenin",
+        "kalau kamu sedih, aku dengerin",
+        "kalau kamu ragu...",
+        "aku di sini, tetap milih kamu",
+        "",
+        "bukan cuma hari ini...",
+        "tapi semoga selama yang kita bisa jalanin bareng ?"
+    ];
+
+    let i = 0;
+    let j = 0;
+    let currentText = "";
+    const speed = 35;
+
+    function typeEffect() {
+        if (i < messages.length) {
+            if (j < messages[i].length) {
+                currentText += messages[i].charAt(j);
+                document.getElementById("finalText").innerHTML = currentText;
+                j++;
+                setTimeout(typeEffect, speed);
+            } else {
+                currentText += "<br><br>";
+                i++;
+                j = 0;
+                setTimeout(typeEffect, 500);
+            }
+        }
+    }
+
+    typeEffect();
+}
+</script>
+
+</body>
+</html>
